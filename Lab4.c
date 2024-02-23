@@ -18,7 +18,7 @@ int main(void)
 	//Set Up ADC
 	ADMUX = 0b00100101; 
 				//left justified (bit 5 = ADLAR = 1)
-				//sets ADC channel to PC5 (ADC 5) 		  [bits 1-4]
+				//sets ADC channel to PC5 (ADC 5) 		  [bits 0-3]
 				//sets voltage reference to AREF (Pin 21) [bits 6-7]
 	PRR = 0b00000000;
 				//clears PRADC bit (bit 0) to power on ADC
@@ -52,11 +52,11 @@ int main(void)
 		}
 		else if(pvalue < 204) //2nd highest voltage range
 		{
-			PORTC = 0b11110111; //turn LED 2 (PC2) on, rest off 
+			PORTC = 0b11110111; //turn LED 3 (PC3) on, rest off 
 		}
 		else if(pvalue < 256) //highest voltage range
 		{
-			PORTC = 0b11101111; //turn LED 2 (PC2) on, rest off 
+			PORTC = 0b11101111; //turn LED 4 (PC4) on, rest off 
 		}
 
 					
