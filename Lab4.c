@@ -31,44 +31,36 @@ int main(void)
 	
 	while(1)
 	{
-		while(ADCSRA & 0b00010000) //if ADC conversion complete
-		{
+		ADCSRA = ADCSRA | 0b01000000; //start A/D conversion (bit 6)
 		
-		
-		ADCSRA = ADCSRA | 0b01000000; //start A/D converstion (bit 6)
-		
-		pvalue = ADCH; //keep high bits of 10-bit result (throw away last 2)
-		
-		if(0 < ADCH < 51) //lowest voltage range 
-		{
-			PORTC = 0b11111110; //turn LED 0 (PC0) on, rest off 
-		}
-		else if(51 < ADCH < 102) //2nd lowest voltage range
-		{
-			PORTC = 0b11111101; //turn LED 1 (PC1) on, rest off 
-		}
-		else if(102 < ADCH < 153) //middle voltage range
-		{
-			PORTC = 0b11111011; //turn LED 2 (PC2) on, rest off 
-		}
-		else if(153 < ADCH < 204) //2nd highest voltage range
-		{
-			PORTC = 0b11110111; //turn LED 2 (PC2) on, rest off 
-		}
-		else if(204 < ADCH < 256) //highest voltage range
-		{
-			PORTC = 0b11101111; //turn LED 2 (PC2) on, rest off 
-		}
-		
-		PORTC = ~pvalue>>3;
-					//echo results back out PORTC
-					//display 5 high bits (PC0-PC4)
-					//inverted because LEDs wired as sinks
-		
-		}
-		
-		
-		
+			while((ADSCRA & 0b00010000)==0) //wait for conversion to finish
+			{
+			
+			pvalue = ADCH; //keep high bits of 10-bit result (throw away last 2)
+			
+			if(pvalue < 51) //lowest voltage range 
+			{
+				PORTC = 0b11111110; //turn LED 0 (PC0) on, rest off 
+			}
+			else if(pvalue < 102) //2nd lowest voltage range
+			{
+				PORTC = 0b11111101; //turn LED 1 (PC1) on, rest off 
+			}
+			else if(pvalue < 153) //middle voltage range
+			{
+				PORTC = 0b11111011; //turn LED 2 (PC2) on, rest off 
+			}
+			else if(pvalue < 204) //2nd highest voltage range
+			{
+				PORTC = 0b11110111; //turn LED 2 (PC2) on, rest off 
+			}
+			else if(pvalue < 256) //highest voltage range
+			{
+				PORTC = 0b11101111; //turn LED 2 (PC2) on, rest off 
+			}
+
+				
+			}		
 	}
 }	
 		
