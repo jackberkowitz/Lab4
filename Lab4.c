@@ -5,6 +5,7 @@
 
 #include <avr/io.h>
 
+//Global Variables
 char pvalue = 0; //value read from potentiometer (0-255 since we'll only read upper 8 bits of the 10-bit number)
 
 int main(void)
@@ -33,34 +34,32 @@ int main(void)
 	{
 		ADCSRA = ADCSRA | 0b01000000; //start A/D conversion (bit 6)
 		
-			while((ADSCRA & 0b00010000)==0) //wait for conversion to finish
-			{
+		while((ADCSRA & 0b00010000)==0) {} //wait for conversion to finish
 			
-			pvalue = ADCH; //keep high bits of 10-bit result (throw away last 2)
+		pvalue = ADCH; //keep high bits of 10-bit result (throw away last 2)
 			
-			if(pvalue < 51) //lowest voltage range 
-			{
-				PORTC = 0b11111110; //turn LED 0 (PC0) on, rest off 
-			}
-			else if(pvalue < 102) //2nd lowest voltage range
-			{
-				PORTC = 0b11111101; //turn LED 1 (PC1) on, rest off 
-			}
-			else if(pvalue < 153) //middle voltage range
-			{
-				PORTC = 0b11111011; //turn LED 2 (PC2) on, rest off 
-			}
-			else if(pvalue < 204) //2nd highest voltage range
-			{
-				PORTC = 0b11110111; //turn LED 2 (PC2) on, rest off 
-			}
-			else if(pvalue < 256) //highest voltage range
-			{
-				PORTC = 0b11101111; //turn LED 2 (PC2) on, rest off 
-			}
+		if(pvalue < 51) //lowest voltage range 
+		{
+			PORTC = 0b11111110; //turn LED 0 (PC0) on, rest off 
+		}
+		else if(pvalue < 102) //2nd lowest voltage range
+		{
+			PORTC = 0b11111101; //turn LED 1 (PC1) on, rest off 
+		}
+		else if(pvalue < 153) //middle voltage range
+		{
+			PORTC = 0b11111011; //turn LED 2 (PC2) on, rest off 
+		}
+		else if(pvalue < 204) //2nd highest voltage range
+		{
+			PORTC = 0b11110111; //turn LED 2 (PC2) on, rest off 
+		}
+		else if(pvalue < 256) //highest voltage range
+		{
+			PORTC = 0b11101111; //turn LED 2 (PC2) on, rest off 
+		}
 
-				
-			}		
+					
 	}
 }	
 		
